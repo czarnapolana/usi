@@ -11,6 +11,6 @@
 |
 */
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@index'));
-Route::get('doctor/{id?}', array('as' => 'doctor.get', 'uses' => 'DoctorController@show'));
-
+Route::get('doctor/{id}', array('as' => 'doctor.get', 'uses' => 'DoctorController@get'));
+Route::get('doctor', array('as' => 'doctor.get', 'uses' => 'DoctorController@show'));
 
