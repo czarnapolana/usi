@@ -38,7 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title"> Heloo </div>
+                <div class="title"> Hello, tutaj Adrian Orzeszko i Justyna Sołek, zapraszamy do naszego projeku, poprosimy o 5 ;) </div>
             </div>
         </div>
     </body>
