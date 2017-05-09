@@ -57,7 +57,7 @@ class AppointmentController extends Controller
             ], 404);
         }
 
-        DB::table('appointment')->where('id', '=', $appointment_id)
+        DB::table('APPOINTMENT')->where('id', '=', $appointment_id)
              ->delete();
 
         return response()->json([
@@ -67,7 +67,7 @@ class AppointmentController extends Controller
 
     public function read($appointment_id)
     {
-        $appointment = DB::table('appointment')
+        $appointment = DB::table('APPOINTMENT')
             ->select('*')
             ->where('id', '=', $appointment_id)
             ->get();
@@ -85,7 +85,7 @@ class AppointmentController extends Controller
 
     public function getAppointments()
     {
-        $appointments = DB::table('appointment')
+        $appointments = DB::table('APPOINTMENT')
             ->select('*')
             ->get();
 

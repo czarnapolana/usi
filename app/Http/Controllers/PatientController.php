@@ -79,17 +79,17 @@ class PatientController extends Controller
             ], 404);
         }
 
-        $appointments = DB::table('appointment')
+        $appointments = DB::table('APPOINTMENT')
             ->select('*')
             ->where('PATIENT_id', '=', $patient_id)
             ->get();
 
         foreach ($appointments as $appointment) {
-            DB::table('appointment')->where('id', '=', $appointment->id)
+            DB::table('APPOINTMENT')->where('id', '=', $appointment->id)
                 ->delete();
         }
 
-        DB::table('patient')->where('id', '=', $patient_id)
+        DB::table('PATIENT')->where('id', '=', $patient_id)
              ->delete();
 
         return response()->json([
@@ -99,7 +99,7 @@ class PatientController extends Controller
 
     public function read($patient_id)
     {
-        $patient = DB::table('patient')
+        $patient = DB::table('PATIENT')
             ->select('*')
             ->where('id', '=', $patient_id)
             ->get();
@@ -117,10 +117,10 @@ class PatientController extends Controller
 
     public function getAppointments($patient_id)
     {
-        $appointments = DB::table('appointment')
+        $appointments = DB::table('APPOINTMENT')
             ->select('*')
-            ->join('patient', 'patient.id', '=', 'appointment.patient_id')
-            ->where('appointment.patient_id', '=', $patient_id)
+            ->join('PATIENT', 'PATIENT.id', '=', 'APPOINTMENT.patient_id')
+            ->where('APPOINTMENT.patient_id', '=', $patient_id)
             ->get();
 
         if (empty($appointments)) {
@@ -136,7 +136,7 @@ class PatientController extends Controller
 
     public function getAppointment($patient_id, $appointment_id)
     {
-        $appointment = DB::table('appointment')
+        $appointment = DB::table('APPOINTMENT')
                      ->select('*')
                      ->where('id', '=', $appointment_id)
                      ->where('patient_id', '=', $patient_id)
@@ -157,11 +157,11 @@ class PatientController extends Controller
     {
         $date = $request->input('date');
 
-        $appointments = DB::table('appointment')
-                     ->select('appointment.id', 'appointment.DOCTOR_id', 'appointment.PATIENT_id', 'appointment.date', 'appointment.duration')
-                     ->join('patient', 'patient.id', '=', 'appointment.patient_id')
-                     ->where('appointment.patient_id', '=', $patient_id)
-                     ->whereDate('appointment.date', '=', $date)
+        $appointments = DB::table('APPOINTMENT')
+                     ->select('APPOINTMENT.id', 'APPOINTMENT.DOCTOR_id', 'APPOINTMENT.PATIENT_id', 'APPOINTMENT.date', 'APPOINTMENT.duration')
+                     ->join('PATIENT', 'PATIENT.id', '=', 'APPOINTMENT.patient_id')
+                     ->where('APPOINTMENT.patient_id', '=', $patient_id)
+                     ->whereDate('APPOINTMENT.date', '=', $date)
                      ->get();
 
         return response()->json([
@@ -173,12 +173,12 @@ class PatientController extends Controller
     {
         $specialityId = $request->input('speciality_id');
 
-        $appointments = DB::table('appointment')
-                     ->select('appointment.id', 'appointment.DOCTOR_id', 'appointment.PATIENT_id', 'appointment.date', 'appointment.duration')
-                     ->join('patient', 'patient.id', '=', 'appointment.patient_id')
-                     ->join('doctor', 'doctor.id', '=', 'appointment.doctor_id')
-                     ->where('appointment.patient_id', '=', $patient_id)
-                     ->where('doctor.speciality_id', '=', $specialityId)
+        $appointments = DB::table('APPOINTMENT')
+                     ->select('APPOINTMENT.id', 'APPOINTMENT.DOCTOR_id', 'APPOINTMENT.PATIENT_id', 'APPOINTMENT.date', 'APPOINTMENT.duration')
+                     ->join('PATIENT', 'PATIENT.id', '=', 'APPOINTMENT.patient_id')
+                     ->join('DOCTOR', 'DOCTOR.id', '=', 'APPOINTMENT.doctor_id')
+                     ->where('APPOINTMENT.patient_id', '=', $patient_id)
+                     ->where('DOCTOR.speciality_id', '=', $specialityId)
                      ->get();
 
         return response()->json([
@@ -188,7 +188,7 @@ class PatientController extends Controller
 
     public function getPatients()
     {
-        $patients = DB::table('patient')
+        $patients = DB::table('PATIENT')
                      ->select('*')
                      ->get();
 

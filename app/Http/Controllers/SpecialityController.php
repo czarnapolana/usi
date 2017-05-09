@@ -28,7 +28,7 @@ class SpecialityController extends Controller
 
     public function read($speciality_id)
     {
-        $speciality = DB::table('speciality')
+        $speciality = DB::table('SPECIALITY')
             ->select('*')
             ->where('id', '=', $speciality_id)
             ->get();
@@ -46,7 +46,7 @@ class SpecialityController extends Controller
 
     public function getSpecialities()
     {
-        $specialities = DB::table('speciality')
+        $specialities = DB::table('SPECIALITY')
             ->select('*')
             ->get();
 
