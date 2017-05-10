@@ -8,89 +8,86 @@ use App\Appointment;
 
 class AppointmentController extends Controller
 {
-    public function create(Request $request)
-    {
-        $appointment = new Appointment();
+     public function create(Request $request){
+        $appointment = new Appointment;
         $appointment->doctor_id = $request->input('doctor_id');
         $appointment->patient_id = $request->input('patient_id');
         $appointment->date = $request->input('date');
-        $appointment->duration = $request->input('duration');
-        $appointment->save();
-
+        $appointment->duration= $request->input('duration');
+        $appointment->save();    
+     
         return response()->json([
-             'id' => $appointment->id,
+             'id' => $appointment->id
+        ]);
+    }
+ 
+     public function edit($appointment_id){
+        $appointment = Appointment::find($appointment_id);
+           $data = request()->all();
+           
+           if(isset($data['doctor_id'])){
+               $appointment->doctor_id = $data['doctor_id'];
+           }
+           if(isset($data['patient_id'])){
+               $appointment->patient_id = $data['patient_id'];
+           }
+           if(isset($data['date'])){
+               $appointment->date = $data['date'];
+           }
+           if (isset($data['duration'])){
+               $appointment->duration = $data['duration'];
+           }
+           
+           $appointment->save();
+           
+        return response()->json([
+            'appointment' => $appointment
         ]);
     }
 
-    public function edit($appointment_id)
-    {
+        public function delete($appointment_id){
         $appointment = Appointment::find($appointment_id);
-        $data = request()->all();
-
-        if (isset($data['doctor_id'])) {
-            $appointment->doctor_id = $data['doctor_id'];
-        }
-        if (isset($data['patient_id'])) {
-            $appointment->patient_id = $data['patient_id'];
-        }
-        if (isset($data['date'])) {
-            $appointment->date = $data['date'];
-        }
-        if (isset($data['duration'])) {
-            $appointment->duration = $data['duration'];
-        }
-
-        $appointment->save();
-
-        return response()->json([
-            'appointment' => $appointment,
-        ]);
-    }
-
-    public function delete($appointment_id)
-    {
-        $appointment = Appointment::find($appointment_id);
-
-        if (empty($appointment)) {
+        
+        if (empty($appointment))
+        {
             return response()->json([
                 'message' => 'Record not found',
             ], 404);
         }
-
-        DB::table('APPOINTMENT')->where('id', '=', $appointment_id)
+        
+        DB::table('appointment') ->where("id", '=', $appointment_id)
              ->delete();
-
+        
         return response()->json([
             'id' => $appointment_id,
         ]);
-    }
-
-    public function read($appointment_id)
-    {
-        $appointment = DB::table('APPOINTMENT')
+        }
+    
+        public function read($appointment_id){
+        $appointment = DB::table('appointment')
             ->select('*')
             ->where('id', '=', $appointment_id)
             ->get();
 
-        if (empty($appointment)) {
+        if (empty($appointment))
+        {
             return response()->json([
                 'message' => 'Record not found',
             ], 404);
         }
-
+        
         return response()->json([
             'appointment' => $appointment,
         ]);
-    }
-
-    public function getAppointments()
-    {
-        $appointments = DB::table('APPOINTMENT')
+   }
+   
+    public function getAppointments(){
+        $appointments = DB::table('appointment')
             ->select('*')
             ->get();
-
+        
         return response()->json([
             'appointments' => $appointments,
         ]);
-    }
-}
+   }
+ }
